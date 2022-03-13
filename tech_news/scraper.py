@@ -1,6 +1,6 @@
-from socket import timeout
 import requests
 import time
+from parsel import Selector
 
 
 # Requisito 1
@@ -23,7 +23,19 @@ def fetch(url):
 
 # Requisito 2
 def scrape_novidades(html_content):
-    """Seu código deve vir aqui"""
+    selector = Selector(html_content)
+
+    url_list = []
+    news_url_selector = "main a.tec--card__title__link::attr(href)"
+    for url in selector.css(news_url_selector).getall():
+        url_list.append(url)
+
+    if len(url_list) == 0:
+        return []
+    return url_list
+
+
+# print(scrape_novidades(fetch("https://www.tecmundo.com.br/novidades")))
 
 
 # Requisito 3
