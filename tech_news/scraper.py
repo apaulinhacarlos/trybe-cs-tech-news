@@ -31,8 +31,8 @@ def scrape_novidades(html_content):
     for url in selector.css(news_url_selector).getall():
         url_list.append(url)
 
-    if len(url_list) == 0:
-        return []
+    # if len(url_list) == 0:
+    #     return []
     return url_list
 
 
@@ -72,7 +72,7 @@ def scrape_noticia(html_content):
     )
 
     summary = selector.css(
-        "main div.tec--article__body p:first-child *::text"
+        "main div.tec--article__body > p:first-child *::text"
     ).getall()
     summary = "".join(summary)
 
@@ -127,4 +127,4 @@ def get_tech_news(amount):
     return scraped_news
 
 
-# get_tech_news(3)
+# print(get_tech_news(3))
