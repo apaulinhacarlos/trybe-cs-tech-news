@@ -1,26 +1,43 @@
-from pyparsing import Regex
 from tech_news.database import search_news
+from datetime import datetime
 
 
 # Requisito 6
 # Ignorar case sensitive
 # https://stackoverflow.com/questions/1863399/mongodb-is-it-possible-to-make-a-case-insensitive-query
 def search_by_title(title):
-    newsList = search_news({"title": {"$regex": title, "$options": "i"}})
+    news_list_by_title = search_news(
+        {"title": {"$regex": title, "$options": "i"}}
+    )
 
-    newsSearchByTitle = []
-    for news in newsList:
-        newsSearchByTitle.append((news["title"], news["url"]))
+    news_search_by_title = []
+    for news in news_list_by_title:
+        news_search_by_title.append((news["title"], news["url"]))
 
-    return newsSearchByTitle
+    return news_search_by_title
 
 
 # print(search_by_title("pluto"))
 
 
 # Requisito 7
+# valida data
+# https://stackoverflow.com/questions/16870663/how-do-i-validate-a-date-string-format-in-python
 def search_by_date(date):
-    """Seu código deve vir aqui"""
+    try:
+        if date == datetime.strptime(date, "%Y-%m-%d").strftime("%Y-%m-%d"):
+            news_list_by_date = search_news({"timestamp": {"$regex": date}})
+
+            news_search_by_date = []
+            for news in news_list_by_date:
+                news_search_by_date.append((news["title"], news["url"]))
+
+            return news_search_by_date
+    except ValueError:
+        raise ValueError("Data inválida")
+
+
+# print(search_by_date("20-11-2023"))
 
 
 # Requisito 8
