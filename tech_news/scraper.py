@@ -127,4 +127,4 @@ def get_tech_news(amount):
     return scraped_news
 
 
-# print(get_tech_news(3))
+# get_tech_news(3)
